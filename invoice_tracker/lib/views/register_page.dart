@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/background.dart';
-import 'package:invoice_tracker/widgets/circle.dart';
-import 'package:invoice_tracker/widgets/login_form.dart';
+import 'package:invoice_tracker/widgets/register_form.dart';
 
-class AuthPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _AuthPageState createState() => _AuthPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
-    final double circlesSize = responsive.wp(35);
 
     return Scaffold(
       body: GestureDetector(
@@ -29,7 +27,6 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 //Background
                 Background(),
-
                 //Tittle
 
                 Positioned(
@@ -55,8 +52,8 @@ class _AuthPageState extends State<AuthPage> {
                       radius: responsive.dp(8),
                     )),
 
-                LoginForm()
-                //Login Formm
+                RegisterForm()
+                //Login Form
 
 
               ],

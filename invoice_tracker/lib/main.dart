@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:invoice_tracker/views/auth_page.dart';
 import 'package:invoice_tracker/views/home_page.dart';
+import 'package:invoice_tracker/views/register_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'OpenSans',
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: RegisterPage(),
     );
   }
 }
