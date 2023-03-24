@@ -49,7 +49,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 "Register",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {}),
+              onPressed: () {Navigator.pushNamed(context, '/');}),
         ),
         SizedBox(
           height: responsive.hp(2),

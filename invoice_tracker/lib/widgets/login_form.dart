@@ -30,12 +30,17 @@ class _LoginFormState extends State<LoginForm> {
         ),
         Row(
           children: <Widget>[
-            Text(
-              "Forgot your password?",
-              style: TextStyle(
-                color: Color(0xA5BE00).withOpacity(1),
+            new GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, '/');
+              },
+              child: Text(
+                "Forgot your password?",
+                style: TextStyle(
+                  color: Color(0xA5BE00).withOpacity(1),
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
             )
           ],
         ),
@@ -44,12 +49,17 @@ class _LoginFormState extends State<LoginForm> {
         ),
         Row(
           children: <Widget>[
-            Text(
-              "Not registered?",
-              style: TextStyle(
-                color: Color(0xA5BE00).withOpacity(1),
+            new GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, '/register');
+              },
+              child: Text(
+                "Not registered?",
+                style: TextStyle(
+                  color: Color(0xA5BE00).withOpacity(1),
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
             )
           ],
         ),
@@ -67,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
                 "Login",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {}),
+              onPressed: () {Navigator.pushNamed(context, '/');}),
         ),
         SizedBox(
           height: responsive.hp(2),

@@ -8,7 +8,7 @@ class Circle extends StatelessWidget{
     required this.size,
     required this.color,
   }) : assert(size>0),
-      super(key: key);
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,13 @@ class Circle extends StatelessWidget{
       width: this.size,
       height: this.size,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: this.color
+          shape: BoxShape.circle,
+          color: this.color
       ),
     );
     throw UnimplementedError();
   }
 
-  
+
 }
+

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:invoice_tracker/views/auth_page.dart';
-import 'package:invoice_tracker/views/home_page.dart';
-import 'package:invoice_tracker/views/register_page.dart';
+import 'package:invoice_tracker/pages/auth_page.dart';
+import 'package:invoice_tracker/pages/historic_movements.dart';
+import 'package:invoice_tracker/pages/home.dart';
+import 'package:invoice_tracker/pages/register_new_movement_page.dart';
+import 'package:invoice_tracker/pages/register_page.dart';
+import 'package:invoice_tracker/pages/savingtips_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,22 +21,21 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'BudG',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        fontFamily: 'OpenSans',
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: RegisterPage(),
+      initialRoute: '/authentication',
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context) => const Home(),
+        '/register': (BuildContext context) => const RegisterPage(),
+        '/authentication': (BuildContext context) => const AuthPage(),
+        '/register_new_movement': (BuildContext context) => const RegisterNewMovementPage(),
+        '/historic_movements': (BuildContext context) => const HistoricMovements(),
+        '/user': (BuildContext context) => const AuthPage(),
+        '/saving_tips': (BuildContext context) => const SavingTipsPage(),
+      },
     );
   }
 }
-
