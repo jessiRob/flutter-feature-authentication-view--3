@@ -167,7 +167,7 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                           backgroundColor: const Color(0xFFA5BE00),
                                         ),
                                         onPressed: () {
-                                          //TO DO: ir a historico
+                                          Navigator.pushNamed(context, '/historic_movements');
                                         },
                                         child: const Text(
                                             'Add new movement',

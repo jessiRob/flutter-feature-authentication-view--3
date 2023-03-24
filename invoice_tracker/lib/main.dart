@@ -6,6 +6,7 @@ import 'package:invoice_tracker/pages/home.dart';
 import 'package:invoice_tracker/pages/register_new_movement_page.dart';
 import 'package:invoice_tracker/pages/register_page.dart';
 import 'package:invoice_tracker/pages/savingtips_page.dart';
+import 'package:invoice_tracker/pages/settings_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BudG',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lime,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/authentication',
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/authentication': (BuildContext context) => const AuthPage(),
         '/register_new_movement': (BuildContext context) => const RegisterNewMovementPage(),
         '/historic_movements': (BuildContext context) => const HistoricMovements(),
-        '/user': (BuildContext context) => const AuthPage(),
+        '/user': (BuildContext context) => const SettingsPage(),
         '/saving_tips': (BuildContext context) => const SavingTipsPage(),
       },
     );
