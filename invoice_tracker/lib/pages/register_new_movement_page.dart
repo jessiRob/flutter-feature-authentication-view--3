@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/responsive.dart';
 import '../widgets/background.dart';
 import '../widgets/nav_bar.dart';
-const List<String> list = <String>['Nequi', 'Davivienda', 'Cash', 'MasterCard'];
+const List<String> list = <String>['Nequi', 'Davivienda', 'Cash', 'Bancolombia'];
 
 class RegisterNewMovementPage extends StatefulWidget {
   const RegisterNewMovementPage({super.key});
@@ -31,7 +31,6 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                 child: Container(
                     width: double.infinity,
                     height: responsive.height,
-                    color: const Color(0xFFEBF2FA),
                     child:
 
                     Stack(
@@ -77,7 +76,7 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                                 title: Text(
                                                     ' Select Category',
                                                     style: TextStyle(
-                                                        color: Color(0xFFEBF2FA),
+                                                        color: Colors.white,
                                                       fontFamily: 'OpenSans',
                                                     )
                                                 )
@@ -97,7 +96,7 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                                         .copyWith(color: Colors.black, fontSize: 16),
                                                   ),
                                                   selected: defaultChoiceIndex == index,
-                                                  backgroundColor: const Color(0xFFEBF2FA),
+                                                  backgroundColor: Colors.white,
                                                   selectedColor: const Color(0xFFA5BE00),
                                                   onSelected: (value) {
                                                     setState(() {

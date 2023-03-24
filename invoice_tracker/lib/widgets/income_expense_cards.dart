@@ -41,7 +41,7 @@ class IncomeExpenseCards extends StatelessWidget {
                         children: [
                           // Add icon of up arrow
                           Icon(Icons.arrow_upward, color: const Color(0xff8bc34a), size: responsive.dp(2.5),),
-                          Text(' \$ $expensesAmount', style: TextStyle(color: const Color(0xff8bc34a), fontSize: responsive.dp(2), fontWeight: FontWeight.w600))
+                          Text(' \$ $income', style: TextStyle(color: const Color(0xff8bc34a), fontSize: responsive.dp(2), fontWeight: FontWeight.w600))
                         ],
                       ),),
                       SizedBox(

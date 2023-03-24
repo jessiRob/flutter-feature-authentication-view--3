@@ -10,9 +10,9 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String _name = '', _email = '', _password = '';
-  _submit(){
+  _submit() {
     final isOK = _formKey.currentState?.validate();
-    if (isOK!){
+    if (isOK!) {
       Navigator.pushNamed(context, '/');
     }
   }
@@ -30,9 +30,11 @@ class _RegisterFormState extends State<RegisterForm> {
           InputText(
             keyBoardType: TextInputType.text,
             label: "Name",
-            onChanged: (text){_name = text;},
-            validator: (text){
-              if (text!.length > 0) {
+            onChanged: (text) {
+              _name = text;
+            },
+            validator: (text) {
+              if (text!.length <= 0) {
                 return "Invalid name";
               }
               return null;
@@ -41,12 +43,13 @@ class _RegisterFormState extends State<RegisterForm> {
           InputText(
             keyBoardType: TextInputType.emailAddress,
             label: "Uniandes e-mail",
-            onChanged: (text){_email = text;},
-            validator: (text){
-              if (!text!.contains("@")){
+            onChanged: (text) {
+              _email = text;
+            },
+            validator: (text) {
+              if (!text!.contains("@")) {
                 return "Invalid email";
               }
-              print("Hola");
               return null;
             },
           ),
@@ -54,22 +57,25 @@ class _RegisterFormState extends State<RegisterForm> {
             keyBoardType: TextInputType.visiblePassword,
             obscureText: true,
             label: "Password",
-            onChanged: (text){_password = text;},
-            validator: (text){return null;},
+            onChanged: (text) {
+              _password = text;
+            },
+            validator: (text) {
+              return null;
+            },
           ),
           InputText(
             keyBoardType: TextInputType.visiblePassword,
             obscureText: true,
             label: "Confirm Password",
-            onChanged: (text){},
-            validator: (text){
+            onChanged: (text) {},
+            validator: (text) {
               if (text! != _password) {
                 return "Passwords don't match";
               }
               return null;
             },
           ),
-
           SizedBox(
             height: responsive.hp(5),
           ),
@@ -77,14 +83,15 @@ class _RegisterFormState extends State<RegisterForm> {
             width: responsive.wp(60),
             child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        vertical: responsive.hp(2)),
+                    padding: EdgeInsets.symmetric(vertical: responsive.hp(2)),
                     backgroundColor: Color(0xA5BE00).withOpacity(0.8)),
                 child: Text(
                   "Register",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {_submit();}),
+                onPressed: () {
+                  _submit();
+                }),
           ),
           SizedBox(
             height: responsive.hp(2),

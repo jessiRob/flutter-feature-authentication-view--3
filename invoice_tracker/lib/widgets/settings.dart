@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:invoice_tracker/utils/responsive.dart';
-import 'package:invoice_tracker/widgets/input_text.dart';
-
-import 'nav_bar.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -13,7 +9,6 @@ class _Settings extends State<Settings> {
   DateTime _date = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    final responsive = Responsive.of(context);
     return Scrollbar(
         thumbVisibility: true, //always show scrollbar
         thickness: 10, //width of scrollbar
@@ -41,7 +36,6 @@ class _Settings extends State<Settings> {
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
-                              color: Color(0xFFEBF2FA),
                               child: ListTile(
                                 title: Text(
                                     '    Username',
@@ -56,7 +50,6 @@ class _Settings extends State<Settings> {
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
-                              color: Color(0xFFEBF2FA),
                               child: ListTile(
                                   title: Text(
                                       '    Email',
@@ -72,7 +65,6 @@ class _Settings extends State<Settings> {
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
-                              color: const Color(0xFFEBF2FA),
                               child: ElevatedButton(
                                 onPressed: () {
                                   showDialog(
@@ -119,7 +111,7 @@ class _Settings extends State<Settings> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 20),
-                                  backgroundColor: const Color(0xFFEBF2FA),
+                                  backgroundColor: Colors.white,
                                 ),
                                 child: const ListTile(
                                   title: Text(
@@ -139,7 +131,6 @@ class _Settings extends State<Settings> {
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
-                              color: const Color(0xFFEBF2FA),
                               child: ElevatedButton(
                                 onPressed: () {
                                   showDialog(
@@ -211,7 +202,7 @@ class _Settings extends State<Settings> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 20),
-                                  backgroundColor: const Color(0xFFEBF2FA),
+                                  backgroundColor: Colors.white,
                                 ),
                                 child: const ListTile(
                                   title: Text(
@@ -230,7 +221,6 @@ class _Settings extends State<Settings> {
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
-                              color: const Color(0xFFEBF2FA),
                               child: ElevatedButton(
                                 onPressed: () {
                                   showDialog(
@@ -279,7 +269,7 @@ class _Settings extends State<Settings> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   textStyle: const TextStyle(fontSize: 20),
-                                  backgroundColor: const Color(0xFFEBF2FA),
+                                  backgroundColor: Colors.white,
                                 ),
                                 child: const ListTile(
                                   title: Text(
@@ -301,7 +291,7 @@ class _Settings extends State<Settings> {
                             backgroundColor: const Color(0xFFA5BE00),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/auth');
+                            Navigator.pushNamed(context, '/authentication');
                           },
                           child: const Text('Log out')),
                       const SizedBox(height: 56),

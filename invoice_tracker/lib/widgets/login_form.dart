@@ -11,14 +11,13 @@ class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String _email = '', _password = '';
 
-  _submit(){
+  _submit() {
     final isOK = _formKey.currentState?.validate();
 
-    if (isOK!){
+    if (isOK!) {
       Navigator.pushNamed(context, '/');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +32,11 @@ class _LoginFormState extends State<LoginForm> {
           InputText(
             keyBoardType: TextInputType.emailAddress,
             label: "Uniandes e-mail",
-            onChanged: (text){_email = text;},
-            validator: (text){
-              if (!text!.contains("@")){
+            onChanged: (text) {
+              _email = text;
+            },
+            validator: (text) {
+              if (!text!.contains("@")) {
                 return "Invalid email";
               }
               return null;
@@ -45,8 +46,12 @@ class _LoginFormState extends State<LoginForm> {
             keyBoardType: TextInputType.visiblePassword,
             obscureText: true,
             label: "password",
-            onChanged: (text){_password = text;},
-            validator: (text){return null;},
+            onChanged: (text) {
+              _password = text;
+            },
+            validator: (text) {
+              return null;
+            },
           ),
           SizedBox(
             height: responsive.hp(4),
@@ -54,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
           Row(
             children: <Widget>[
               new GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, '/');
                 },
                 child: Text(
@@ -73,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
           Row(
             children: <Widget>[
               new GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, '/register');
                 },
                 child: Text(
@@ -93,14 +98,15 @@ class _LoginFormState extends State<LoginForm> {
             width: responsive.wp(60),
             child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        vertical: responsive.hp(2)),
+                    padding: EdgeInsets.symmetric(vertical: responsive.hp(2)),
                     backgroundColor: Color(0xA5BE00).withOpacity(0.8)),
                 child: Text(
                   "Login",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {_submit();}),
+                onPressed: () {
+                  _submit();
+                }),
           ),
           SizedBox(
             height: responsive.hp(2),

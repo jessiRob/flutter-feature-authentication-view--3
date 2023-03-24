@@ -119,7 +119,6 @@ class _SavingTipsPageState extends State<SavingTipsPage> {
                                     onPressed: () {
                                       setState(() {
                                         _cardLikes[index] = !_cardLikes[index];
-                                        print(_cardTexts.elementAt(index));
                                       });
                                     },
                                   ),
