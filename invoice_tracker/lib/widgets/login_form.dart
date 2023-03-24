@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/input_text.dart';
 
+import '../services/auth.dart';
+
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -9,13 +11,21 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
+  String _error = '';
   String _email = '', _password = '';
+  final AuthService _auth = AuthService();
 
-  _submit() {
+  _submit() async {
     final isOK = _formKey.currentState?.validate();
 
     if (isOK!) {
-      Navigator.pushNamed(context, '/');
+      dynamic result = await _auth.signInWithEmailAndPassword(_email, _password);
+      if (result == null){
+        setState(() => _error = "Invalid password or email" );
+      } else{
+        Navigator.pushNamed(context, '/');
+      }
+
     }
   }
 
@@ -117,6 +127,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(
             height: responsive.hp(3),
+              child: Text(_error)
           ),
         ]),
       ),

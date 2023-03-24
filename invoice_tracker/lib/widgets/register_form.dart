@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_tracker/services/auth.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/input_text.dart';
 
@@ -9,11 +10,19 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   GlobalKey<FormState> _formKey = GlobalKey();
+  String _error = '';
   String _name = '', _email = '', _password = '';
-  _submit() {
+  final AuthService _auth = AuthService();
+
+  _submit() async {
     final isOK = _formKey.currentState?.validate();
     if (isOK!) {
-      Navigator.pushNamed(context, '/');
+      dynamic result =await _auth.registerWithEmailAndPassword(_email, _password);
+      if (result == null){
+        setState(() => _error = "Not valid information" );
+      } else{
+        Navigator.pushNamed(context, '/');
+      }
     }
   }
 
@@ -95,6 +104,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(
             height: responsive.hp(2),
+            child: Text(_error)
           )
         ]),
       ),

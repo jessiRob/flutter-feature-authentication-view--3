@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_tracker/services/auth.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -7,6 +8,8 @@ class Settings extends StatefulWidget {
 
 class _Settings extends State<Settings> {
   DateTime _date = DateTime.now();
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
@@ -290,7 +293,8 @@ class _Settings extends State<Settings> {
                             textStyle: const TextStyle(fontSize: 20),
                             backgroundColor: const Color(0xFFA5BE00),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            await _auth.signOut();
                             Navigator.pushNamed(context, '/authentication');
                           },
                           child: const Text('Log out')),
