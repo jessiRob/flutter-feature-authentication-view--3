@@ -1,0 +1,21 @@
+{
+    "users": [
+        {
+            "name": "sofia",
+            "transactions": [
+                {
+                    "name": "McDonalds",
+                    "category": "Food",
+                    "value": "10.000",
+                    "paymentmethod": "Nequi"
+                },
+                {
+                    "name": "Miami",
+                    "category": "Travel",
+                    "value": "50.000",
+                    "paymentmethod": "Cash"
+                }
+            ]
+        }
+    ]
+}

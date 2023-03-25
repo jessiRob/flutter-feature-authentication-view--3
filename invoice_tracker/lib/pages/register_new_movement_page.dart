@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_tracker/services/auth.dart';
+import 'package:invoice_tracker/services/transactions.dart';
+import 'package:invoice_tracker/services/user.dart';
 
 import '../utils/responsive.dart';
 import '../widgets/background.dart';
@@ -17,6 +20,25 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
   List<IconData> _choicesIcon = [Icons.fastfood_rounded,Icons.airplanemode_active, Icons.person, Icons.money];
   List<String> _choicesList = ['Food', 'Travel', 'Clothes', 'Salary'];
   String dropdowncurrentvalue = list.first;
+
+  final AuthService _auth = AuthService();
+  final TransactionService _transaction = TransactionService();
+
+  final nameController = TextEditingController();
+  @override
+  void disposeName() {
+    // Limpia el controlador cuando el Widget se descarte
+    nameController.dispose();
+    super.dispose();
+  }
+  final valueController = TextEditingController();
+  @override
+  void disposeValue() {
+    // Limpia el controlador cuando el Widget se descarte
+    valueController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
@@ -54,12 +76,13 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    const TextField(
-                                      decoration: InputDecoration(
+                                     TextField(
+                                      controller: nameController,
+                                      decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           labelText: 'Enter the name of the movement'
                                       ),
-                                      style:  TextStyle(
+                                      style:  const TextStyle(
                                         fontFamily: 'OpenSans',
                                       ),
                                     ),
@@ -117,12 +140,13 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                        children: <Widget>[
                                          SizedBox(
                                            width: responsive.width*0.5,
-                                           child: const TextField(
-                                             decoration: InputDecoration(
+                                           child: TextField(
+                                             controller: valueController,
+                                             decoration: const InputDecoration(
                                                border: OutlineInputBorder(),
                                                labelText: 'Value of the movement',
                                              ),
-                                             style: TextStyle(
+                                             style: const TextStyle(
                                                fontFamily: 'OpenSans',
                                              ),
                                            ),
@@ -165,8 +189,16 @@ class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
                                           textStyle: const TextStyle(fontSize: 20),
                                           backgroundColor: const Color(0xFFA5BE00),
                                         ),
-                                        onPressed: () {
-                                          Navigator.pushNamed(context, '/historic_movements');
+                                        onPressed: () async {
+                                          dynamic result = _transaction.registerNewMovement(_auth.userID ,nameController.text, _choicesList[defaultChoiceIndex],valueController.text, DateTime.now(), dropdowncurrentvalue);
+                                          if (result == null){
+                                            print('error');
+                                          } else {
+                                            Navigator.pushNamed(context, '/historic_movements');
+                                          }
+                                          
+                                          //TO DO: guardar en la base de datos la transaccion
+                                          
                                         },
                                         child: const Text(
                                             'Add new movement',

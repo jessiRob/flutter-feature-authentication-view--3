@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:invoice_tracker/services/auth.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/input_text.dart';
-
+dynamic user;
 class RegisterForm extends StatefulWidget {
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -18,6 +18,7 @@ class _RegisterFormState extends State<RegisterForm> {
     final isOK = _formKey.currentState?.validate();
     if (isOK!) {
       dynamic result =await _auth.registerWithEmailAndPassword(_email, _password);
+      user = result;
       if (result == null){
         setState(() => _error = "Not valid information" );
       } else{

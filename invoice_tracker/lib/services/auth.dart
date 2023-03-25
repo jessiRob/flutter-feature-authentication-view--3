@@ -5,23 +5,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String? _userID = FirebaseAuth.instance.currentUser?.uid;
+
+  String? get userID => _userID; //information from user
 
 
-  //information from user
-  // sign in anon
-  Future userInfo(user) async {
+  Future<User?> userInfo() async {
+    var user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       for (final providerProfile in user.providerData) {
         // ID of the provider (google.com, apple.com, etc.)
         final provider = providerProfile.providerId;
 
         // UID specific to the provider
-        final uid = providerProfile.uid;
+        final uid = await providerProfile.uid;
 
         // Name, email address, and profile photo URL
         final name = providerProfile.displayName;
         final emailAddress = providerProfile.email;
         final profilePhoto = providerProfile.photoURL;
+
+        print(uid);
+        return user;
       }
     }
   }

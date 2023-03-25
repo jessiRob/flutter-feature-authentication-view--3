@@ -4,6 +4,7 @@ import 'package:invoice_tracker/widgets/input_text.dart';
 
 import '../services/auth.dart';
 
+dynamic userLog;
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -20,6 +21,7 @@ class _LoginFormState extends State<LoginForm> {
 
     if (isOK!) {
       dynamic result = await _auth.signInWithEmailAndPassword(_email, _password);
+      userLog = result;
       if (result == null){
         setState(() => _error = "Invalid password or email" );
       } else{
