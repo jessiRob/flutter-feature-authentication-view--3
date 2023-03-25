@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_tracker/services/auth.dart';
-import 'package:invoice_tracker/services/transactions.dart';
-import 'package:invoice_tracker/services/user.dart';
+import 'package:invoice_tracker/services/database.dart';
+import 'package:uuid/uuid.dart';
 
 import '../utils/responsive.dart';
 import '../widgets/background.dart';
@@ -14,15 +14,14 @@ class RegisterNewMovementPage extends StatefulWidget {
   State<RegisterNewMovementPage> createState() => _RegisterNewMovementPage();
 
 }
-
+var uuid = const Uuid();
 class _RegisterNewMovementPage extends State<RegisterNewMovementPage> {
   int defaultChoiceIndex = 0;
   List<IconData> _choicesIcon = [Icons.fastfood_rounded,Icons.airplanemode_active, Icons.person, Icons.money];
   List<String> _choicesList = ['Food', 'Travel', 'Clothes', 'Salary'];
   String dropdowncurrentvalue = list.first;
-
   final AuthService _auth = AuthService();
-  final TransactionService _transaction = TransactionService();
+  final DatabaseService _transaction = DatabaseService(uid: uuid.v4());
 
   final nameController = TextEditingController();
   @override

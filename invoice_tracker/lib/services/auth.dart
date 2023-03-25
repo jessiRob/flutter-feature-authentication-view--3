@@ -80,12 +80,13 @@ class AuthService {
 
 
 // register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String name, String email, String password) async {
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await credential.user?.updateDisplayName(name);
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

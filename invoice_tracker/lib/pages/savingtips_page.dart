@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:invoice_tracker/controller/controller.dart';
+import 'package:invoice_tracker/dataSources/tips_data.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/background.dart';
 
@@ -12,24 +14,13 @@ class SavingTipsPage extends StatefulWidget {
 }
 
 class _SavingTipsPageState extends State<SavingTipsPage> {
-  List<String> _cardTexts = [
-    "Este es un texto muy largo para ver como se vería si el texto es demasiado grande para esto",
-    "Si",
-    "NO",
-    "Card 4",
-    "Card 5",
-    "Card 6",
-    "Card 7",
-    "Card 8",
-    "Card 9",
-    "Card 10"
-  ];
-
-  List<bool> _cardLikes = List.filled(10, false);
-
+  Controller controller = Controller();
 
   @override
   Widget build(BuildContext context) {
+    List<Tip> _tips = controller.getTips();
+    List<bool> _cardLikes = List.filled(_tips.length, false);
+
     final responsive = Responsive.of(context);
     return Scaffold(
       body: Container(
@@ -59,7 +50,7 @@ class _SavingTipsPageState extends State<SavingTipsPage> {
                 ),
                 SizedBox(height: responsive.hp(10)),
                 CarouselSlider.builder(
-                  itemCount: _cardTexts.length,
+                  itemCount: _tips.length,
                   options: CarouselOptions(
                     height: responsive.hp(50),
                     aspectRatio: 16/9,
@@ -87,10 +78,10 @@ class _SavingTipsPageState extends State<SavingTipsPage> {
                             children: <Widget>[
                               Expanded(
                                 child: Text(
-                                  _cardTexts.elementAt(index),
+                                  _tips.elementAt(index).tip,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: responsive.dp(3),
+                                      fontSize: responsive.dp(2),
                                       fontFamily: 'OpenSans',
                                       fontWeight: FontWeight.w600,
                                   ),
