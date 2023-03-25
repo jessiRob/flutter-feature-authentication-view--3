@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:invoice_tracker/controller/controller.dart';
-import 'package:invoice_tracker/dataSources/tips_data.dart';
+import 'package:invoice_tracker/model/tips_model.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 import 'package:invoice_tracker/widgets/background.dart';
 
@@ -18,6 +18,7 @@ class _SavingTipsPageState extends State<SavingTipsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     List<Tip> _tips = controller.getTips();
     List<bool> _cardLikes = List.filled(_tips.length, false);
 

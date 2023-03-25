@@ -1,13 +1,26 @@
-import 'package:invoice_tracker/dataSources/tips_data.dart';
 
 class TipsModel {
-  TipsData _tips;
+  List<Tip> _tips;
 
   TipsModel(this._tips);
 
+  List<Tip> sortTips(){
+    _tips.sort((a, b) => a._likes.compareTo(b._likes));
+    return _tips;
+  }
+
 }
 
-List<Tip> organizeLikedOnes(TipsModel model){
-  TipsData tips = model._tips;
-  return tips.sort();
+class Tip {
+  String _id;
+  int _likes;
+  String _tip;
+
+  Tip(this._id, this._likes, this._tip);
+
+  String get id => _id;
+
+  String get tip => _tip;
+
+  int get likes => _likes;
 }
