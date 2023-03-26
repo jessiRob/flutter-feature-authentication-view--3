@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_tracker/model/transactionModel.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
+import 'package:uuid/uuid.dart';
 
+import '../services/auth.dart';
+import '../services/database.dart';
 import '../widgets/background.dart';
 import '../widgets/income_expense_cards.dart';
 import '../widgets/nav_bar.dart';
@@ -13,9 +17,13 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+var uuid = const Uuid();
+
 class _HomeState extends State<Home> {
 
-  String nombreUsuario = 'Ana';
+  final AuthService _auth = AuthService();
+  final DatabaseService _databaseService = DatabaseService(uid: uuid.toString());
+
   int currentBudget = 0;
   bool _showBudget = false;
   int amountSpentWeek = 0;
@@ -23,15 +31,20 @@ class _HomeState extends State<Home> {
   int numberOfTransactions = 0;
   int amountSaved = 0;
 
-  List expenses = [
-      {'amount': -35000, 'name': 'Hamburger', 'cuenta': "Bancolombia", 'categoria': "food", "fecha": "Mar 23, 2023"},
-      {'amount': -11000, 'name': 'Breakfast', 'cuenta': "Nequi", 'categoria': "Food", "fecha": "Mar 23, 2023"},
-      {'amount': 100000, 'name': 'Tutoring', 'cuenta': "Bancolombia", 'categoria': "Work", "fecha": "Mar 22, 2023"},
-      {'amount': -25000, 'name': 'Movie Tickets', 'cuenta': "Davivienda", 'categoria': "Entertainment", "fecha": "Mar 21, 2023"},
-      {'amount': -150000, 'name': 'Shopping', 'cuenta': "Davivienda", 'categoria': "Retail", "fecha": "Mar 20, 2023"},
-      {'amount': -50000, 'name': 'Gasoline', 'cuenta': "Bancolombia", 'categoria': "Transportation", "fecha": "Mar 19, 2023"},
-      {'amount': 800000, 'name': 'Salary', 'cuenta': "Davivienda", 'categoria': "Work", "fecha": "Mar 18, 2023"}
-  ];
+  List<TransactionModel> expenses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final transactions = await _databaseService.getLastUserMovements(_auth.userID);
+    setState(() {
+      expenses = transactions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +64,7 @@ class _HomeState extends State<Home> {
                  Padding(
                     padding: EdgeInsets.only(left: responsive.wp(5), right: responsive.wp(5), top: responsive.wp(8)),
                     child:Text(
-                      'Welcome,\n $nombreUsuario!',
+                      'Welcome,\n ${_auth.name}!',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: responsive.dp(4),
@@ -166,11 +179,11 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                   child: Transaction(
-                                    amount: (expenses[i]['amount'] ?? 0),
-                                    name: (expenses[i]['name'] ?? ""),
-                                    cuenta: (expenses[i]['cuenta'] ?? ""),
-                                    categoria: (expenses[i]['categoria'] ?? ""),
-                                    fecha: (expenses[i]['fecha'] ?? ""),
+                                    value: (expenses[i].value),
+                                    name: (expenses[i].name),
+                                    paymentMethod: (expenses[i].paymentMethod),
+                                    category: (expenses[i].category),
+                                    date: (expenses[i].date.toString()),
                                   ),
                                 ),
                               Padding(

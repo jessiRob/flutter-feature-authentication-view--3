@@ -7,9 +7,7 @@ class TipsRepo {
   late List<Tip> tips;
   late TipsModel model;
 
-  TipsRepo(){
-    this.model = TipsModel(tips);
-  }
+  TipsRepo();
 
 
   List<Tip> sortedTips(){
@@ -18,6 +16,7 @@ class TipsRepo {
 
   Future setSavingTips() async{
     this.tips = await dao.getSavingTips();
+    this.model = TipsModel(tips);
   }
 
 

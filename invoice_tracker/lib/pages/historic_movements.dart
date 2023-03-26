@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_tracker/utils/responsive.dart';
 
+import '../model/transactionModel.dart';
+import '../services/auth.dart';
+import '../services/database.dart';
 import '../widgets/background.dart';
 import '../widgets/nav_bar.dart';
+import '../widgets/settings.dart';
 import '../widgets/transaction.dart';
 
 class HistoricMovements extends StatefulWidget {
@@ -13,16 +17,24 @@ class HistoricMovements extends StatefulWidget {
 }
 
 class _HistoricMovementsState extends State<HistoricMovements> {
+
+  final AuthService _auth = AuthService();
+  final DatabaseService _databaseService = DatabaseService(uid: uuid.toString());
   
-    List expenses = [
-      {'amount': -35000, 'name': 'Hamburger', 'cuenta': "Bancolombia", 'categoria': "food", "fecha": "Mar 23, 2023"},
-      {'amount': -11000, 'name': 'Breakfast', 'cuenta': "Nequi", 'categoria': "Food", "fecha": "Mar 23, 2023"},
-      {'amount': 100000, 'name': 'Tutoring', 'cuenta': "Bancolombia", 'categoria': "Work", "fecha": "Mar 22, 2023"},
-      {'amount': -25000, 'name': 'Movie Tickets', 'cuenta': "Davivienda", 'categoria': "Entertainment", "fecha": "Mar 21, 2023"},
-      {'amount': -150000, 'name': 'Shopping', 'cuenta': "Davivienda", 'categoria': "Retail", "fecha": "Mar 20, 2023"},
-      {'amount': -50000, 'name': 'Gasoline', 'cuenta': "Bancolombia", 'categoria': "Transportation", "fecha": "Mar 19, 2023"},
-      {'amount': 800000, 'name': 'Salary', 'cuenta': "Davivienda", 'categoria': "Work", "fecha": "Mar 18, 2023"}
-  ];
+  List<TransactionModel> expenses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final transactions = await _databaseService.getAllUserMovements(_auth.userID);
+    setState(() {
+      expenses = transactions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +95,11 @@ class _HistoricMovementsState extends State<HistoricMovements> {
                                     ),
                                   ),
                                   child: Transaction(
-                                    amount: (expenses[i]['amount'] ?? 0),
-                                    name: (expenses[i]['name'] ?? ""),
-                                    cuenta: (expenses[i]['cuenta'] ?? ""),
-                                    categoria: (expenses[i]['categoria'] ?? ""),
-                                    fecha: (expenses[i]['fecha'] ?? ""),
+                                    value: (expenses[i].value),
+                                    name: (expenses[i].name),
+                                    paymentMethod: (expenses[i].paymentMethod),
+                                    category: (expenses[i].category),
+                                    date: (expenses[i].date.toString())
                                   ),
                                 ),  
               

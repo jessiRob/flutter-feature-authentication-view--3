@@ -1,15 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_tracker/services/auth.dart';
+import 'package:invoice_tracker/services/database.dart';
+import 'package:uuid/uuid.dart';
 
 class Settings extends StatefulWidget {
   @override
   _Settings createState() => _Settings();
 }
-
+var uuid = const Uuid();
 class _Settings extends State<Settings> {
   DateTime _date = DateTime.now();
   final AuthService _auth = AuthService();
-
+  final DatabaseService _notifications = DatabaseService(uid: uuid.v4());
+  final nameController = TextEditingController();
+  @override
+  void disposeName() {
+    // Limpia el controlador cuando el Widget se descarte
+    nameController.dispose();
+    super.dispose();
+  }
+  final valueController = TextEditingController();
+  @override
+  void disposeValue() {
+    // Limpia el controlador cuando el Widget se descarte
+    valueController.dispose();
+    super.dispose();
+  }
+  final maxValueController = TextEditingController();
+  @override
+  void disposeMaxValue() {
+    // Limpia el controlador cuando el Widget se descarte
+    maxValueController.dispose();
+    super.dispose();
+  }
+  final referenceValueController = TextEditingController();
+  @override
+  void disposeReferenceValue() {
+    // Limpia el controlador cuando el Widget se descarte
+    referenceValueController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
@@ -33,30 +63,30 @@ class _Settings extends State<Settings> {
                       Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            const Card(
-                              margin: EdgeInsets.fromLTRB(16, 0, 16, 7),
-                              shape: RoundedRectangleBorder(
+                             Card(
+                              margin: const EdgeInsets.fromLTRB(16, 0, 16, 7),
+                              shape: const RoundedRectangleBorder(
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
                               child: ListTile(
                                 title: Text(
-                                    '    Username',
-                                    style: TextStyle(
+                                    '    ${_auth.name}',
+                                    style: const TextStyle(
                                         color: Colors.black
                                     )
                                 ),
                               ),
-                            ), const Card(
-                              margin: EdgeInsets.fromLTRB(16, 7, 16, 7),
-                              shape: RoundedRectangleBorder(
+                            ), Card(
+                              margin: const EdgeInsets.fromLTRB(16, 7, 16, 7),
+                              shape: const RoundedRectangleBorder(
                                   side: BorderSide(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.all(Radius.circular(8.0),)
                               ),
                               child: ListTile(
                                   title: Text(
-                                      '    Email',
-                                      style: TextStyle(
+                                      '    ${_auth.email}',
+                                      style: const TextStyle(
                                           color: Colors.black
                                       )
                                   )
@@ -155,12 +185,14 @@ class _Settings extends State<Settings> {
                                               child: Column(
                                                 children: <Widget>[
                                                   TextFormField(
+                                                    controller: nameController,
                                                     decoration: const InputDecoration(
                                                         labelText: 'Name',
                                                         icon: Icon(Icons.person)
                                                     ),
                                                   ),
                                                   TextFormField(
+                                                    controller: valueController,
                                                     decoration: const InputDecoration(
                                                         labelText: 'Value',
                                                         icon: Icon(Icons.attach_money)
@@ -196,6 +228,12 @@ class _Settings extends State<Settings> {
                                             ElevatedButton(
                                                 child:const Text("Submit"),
                                                 onPressed: () {
+                                                  dynamic debt = _notifications.registerDebtNotification(_auth.userID, nameController.text, valueController.text, _date);
+                                                  if (debt == null){
+                                                    print('error');
+                                                  } else {
+                                                    Navigator.pop(context);
+                                                  }
                                                 }
                                             )
                                           ],
@@ -245,12 +283,14 @@ class _Settings extends State<Settings> {
                                               child: Column(
                                                 children: <Widget>[
                                                   TextFormField(
+                                                    controller: maxValueController,
                                                     decoration: const InputDecoration(
                                                         labelText: 'Maximum Value',
                                                         icon: Icon(Icons.attach_money)
                                                     ),
                                                   ),
                                                   TextFormField(
+                                                    controller: referenceValueController,
                                                     decoration: const InputDecoration(
                                                         labelText: 'Reference Value',
                                                         icon: Icon(Icons.attach_money)
@@ -263,7 +303,14 @@ class _Settings extends State<Settings> {
                                           actions: [
                                             ElevatedButton(
                                                 child:const Text("Submit"),
-                                                onPressed: () {}
+                                                onPressed: () {
+                                                  dynamic saving = _notifications.registerSavingNotification(_auth.userID , maxValueController.text, referenceValueController.text);
+                                                  if (saving == null){
+                                                    print('error');
+                                                  } else {
+                                                    Navigator.pop(context);
+                                                  }
+                                                }
                                             )
                                           ],
                                         );
@@ -295,6 +342,7 @@ class _Settings extends State<Settings> {
                           ),
                           onPressed: () async {
                             await _auth.signOut();
+                            // ignore: use_build_context_synchronously
                             Navigator.pushNamed(context, '/authentication');
                           },
                           child: const Text('Log out')),

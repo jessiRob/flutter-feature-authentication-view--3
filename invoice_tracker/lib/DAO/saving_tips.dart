@@ -12,8 +12,8 @@ class SavingTipsDAO {
 
 
   Future<List<Tip>> getSavingTips() async {
-    final snapshot_saving_tips = await savingTipsCollection.get();
-    final savingTips = snapshot_saving_tips.docs.map((e) => Tip(e.id,e["likes"],e["tip"])).toList();
+    final snapshotSavingTips = await savingTipsCollection.get();
+    final savingTips = snapshotSavingTips.docs.map((e) => Tip(e.id,e["likes"],e["tip"])).toList();
     return savingTips;
   }
 }

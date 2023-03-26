@@ -6,8 +6,11 @@ class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String? _userID = FirebaseAuth.instance.currentUser?.uid;
-
-  String? get userID => _userID; //information from user
+  String? get userID => _userID;
+  final String? _name = FirebaseAuth.instance.currentUser?.displayName;
+  String? get name => _name;
+  final String? _email= FirebaseAuth.instance.currentUser?.email;
+  String? get email => _email;
 
 
   Future<User?> userInfo() async {

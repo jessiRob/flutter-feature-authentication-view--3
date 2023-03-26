@@ -19,12 +19,35 @@ class TransactionsDAO {
         'paymentmethod': paymentmethod,
         }
       );
-      print('funciona');
       return await transactionCollection.doc(uid).get();
       } on Exception catch (e) {
-        print('erroooooor');
         return await transactionCollection.doc(uid).get();
       }
     
   }
+
+  Future<List<DocumentSnapshot>> getAllUserTransactions(String idUser) async {
+    try {
+      QuerySnapshot snapshot =
+          await transactionCollection.where('id_user', isEqualTo: idUser).orderBy('date', descending: true).get();
+      return snapshot.docs;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<DocumentSnapshot>> getLastUserMovements(String idUser) async {
+    try {
+      final querySnapshot = await transactionCollection
+          .where('id_user', isEqualTo: idUser)
+          .orderBy('date', descending: true)
+          .limit(5)
+          .get();
+      return querySnapshot.docs;
+    } on Exception catch (e) {
+      print('Error retrieving last user movements: $e');
+      rethrow;
+    }
+  }
+
 }

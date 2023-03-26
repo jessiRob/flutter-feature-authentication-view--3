@@ -15,12 +15,30 @@ class SavingTipsPage extends StatefulWidget {
 
 class _SavingTipsPageState extends State<SavingTipsPage> {
   Controller controller = Controller();
+  List<Tip> _tips = [];
+  List<bool> _cardLikes = List.filled(1, false);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final tips = await controller.getTips();
+    setState(() {
+      _tips = tips;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    List<Tip> _tips = controller.getTips();
-    List<bool> _cardLikes = List.filled(_tips.length, false);
+    _cardLikes = _cardLikes + List.filled(_tips.length-_cardLikes.length, false);
+
+    print(_tips.length);
+    print(_cardLikes.length);
+    print(_cardLikes);
 
     final responsive = Responsive.of(context);
     return Scaffold(
