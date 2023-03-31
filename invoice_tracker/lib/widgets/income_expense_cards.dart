@@ -3,10 +3,10 @@ import 'package:invoice_tracker/utils/responsive.dart';
 
 class IncomeExpenseCards extends StatelessWidget {
 
-  final int income = 0;
-  final int expensesAmount = 0;
+  final double income;
+  final double expensesAmount;
 
-  const IncomeExpenseCards({Key? key}) : super(key: key);
+  const IncomeExpenseCards({Key? key, required this.income, required this.expensesAmount}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

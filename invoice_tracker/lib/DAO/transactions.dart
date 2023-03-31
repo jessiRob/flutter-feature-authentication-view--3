@@ -35,6 +35,62 @@ class TransactionsDAO {
       return [];
     }
   }
+  Future<List<DocumentSnapshot>> getAllUsersTransactions() async {
+    try {
+      QuerySnapshot snapshot =
+          await transactionCollection.orderBy('date', descending: true).get();
+      return snapshot.docs;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<DocumentSnapshot>> getAllLastMonthTransactions() async {
+    try {
+        final now = DateTime.now();
+        DateTime dateOneMonthAgo;
+        if (now.month > 1) {
+          dateOneMonthAgo = DateTime(now.year, now.month -1, now.day);
+        } else {
+          dateOneMonthAgo = DateTime(now.year - 1, 1, 28);
+        }
+
+        QuerySnapshot snapshot =
+          await transactionCollection
+          .where('date', isGreaterThanOrEqualTo: dateOneMonthAgo)
+          .get();
+
+        return snapshot.docs;
+      }
+      catch(e) {
+        print("Error en la lectura de los pedidos del último mes:" + e.toString());
+        return [];
+      }
+  }
+
+  Future<List<DocumentSnapshot>> getLastMonthTransactions(String idUser) async {
+    try {
+        final now = DateTime.now();
+        DateTime dateOneMonthAgo;
+        if (now.month > 1) {
+          dateOneMonthAgo = DateTime(now.year, now.month -1, now.day);
+        } else {
+          dateOneMonthAgo = DateTime(now.year - 1, 1, 28);
+        }
+
+        QuerySnapshot snapshot =
+          await transactionCollection
+          .where('id_user', isEqualTo: idUser)
+          .where('date', isGreaterThanOrEqualTo: dateOneMonthAgo)
+          .get();
+
+        return snapshot.docs;
+      }
+      catch(e) {
+        print("Error en la lectura de los pedidos del último mes:" + e.toString());
+        return [];
+      }
+  }
 
   Future<List<DocumentSnapshot>> getLastUserMovements(String idUser) async {
     try {
@@ -49,5 +105,7 @@ class TransactionsDAO {
       rethrow;
     }
   }
+
+
 
 }

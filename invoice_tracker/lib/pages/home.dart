@@ -24,12 +24,13 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   final DatabaseService _databaseService = DatabaseService(uid: uuid.toString());
 
-  int currentBudget = 0;
+  double currentBudget = 0;
   bool _showBudget = false;
-  int amountSpentWeek = 0;
-  int amountSpentMonth = 0;
+  double amountSpentWeek = 0;
+  double amountSpentMonth = 0;
   int numberOfTransactions = 0;
-  int amountSaved = 0;
+  double amountSaved = 0;
+  double incomeAmount = 0;
 
   List<TransactionModel> expenses = [];
 
@@ -41,9 +42,39 @@ class _HomeState extends State<Home> {
 
   Future<void> _loadData() async {
     final transactions = await _databaseService.getLastUserMovements(_auth.userID);
+    final lastMonthTransactions = await _databaseService.getLastMonthTransactions(_auth.userID);
+    final budget = await _databaseService.getBudget(_auth.userID);
+    
     setState(() {
+      
       expenses = transactions;
+      currentBudget = budget;
+
+      double incomeAmountTemp = 0;
+      double expensesAmountTemp = 0;
+      double weekExpensesTemp = 0;
+
+      for (int i = 0; i < lastMonthTransactions.length; i++) {
+        double valorTransaccion = transactions[i].value;
+        if (valorTransaccion > 0) {
+          incomeAmountTemp += valorTransaccion;
+        } else {
+          expensesAmountTemp -= valorTransaccion;
+          // Verify if  transactions[i].date is older than 7 days
+          if(DateTime.now().difference(transactions[i].date).inDays < 8) {
+            weekExpensesTemp -= valorTransaccion;
+          }
+        }
+      }
+
+      incomeAmount = incomeAmountTemp;
+      amountSpentMonth = expensesAmountTemp;
+      numberOfTransactions = lastMonthTransactions.length;
+      amountSaved = incomeAmountTemp - expensesAmountTemp;
+      amountSpentWeek = weekExpensesTemp;
+      
     });
+    
   }
 
   @override
@@ -215,7 +246,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(left: responsive.wp(5), right: responsive.wp(5), top: responsive.wp(4)),
-                  child:const IncomeExpenseCards(),
+                  child: IncomeExpenseCards(income: incomeAmount, expensesAmount: amountSpentMonth),
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: responsive.wp(5), right: responsive.wp(5), top: responsive.wp(4)),
@@ -314,14 +345,14 @@ class _HomeState extends State<Home> {
                                 child:Row(
                                   children: [
                                     Text('Transactions in the last month: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: responsive.dp(1.8), decoration: TextDecoration.underline)),
-                                    Text('\$ $numberOfTransactions',  style: TextStyle(fontSize: responsive.dp(1.8))),
+                                    Text('$numberOfTransactions',  style: TextStyle(fontSize: responsive.dp(1.8))),
                                   ],
                                 )
                               ),
                               Padding(padding: EdgeInsets.only(top: responsive.wp(2), bottom: responsive.wp(4)),
                                 child:Row(
                                   children: [
-                                    Text('Amount saved in the last month: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: responsive.dp(1.8), decoration: TextDecoration.underline)),
+                                    Text('Saved in the last month: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: responsive.dp(1.8), decoration: TextDecoration.underline)),
                                     Text('\$ $amountSaved',  style: TextStyle(fontSize: responsive.dp(1.8))),
                                   ],
                                 )
